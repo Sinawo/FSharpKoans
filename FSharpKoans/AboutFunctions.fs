@@ -18,29 +18,29 @@ open NUnit.Framework
 module ``03: Putting the Function into Functional Programming`` = 
     [<Test>]
     let ``01 A function takes one input and produces one output`` () =
-        (fun a -> a + 100) __ |> should equal 2097
+        (fun a -> a + 100)  1997 |> should equal 2097
 
     [<Test>]
     let ``02 The input to a function is a pattern (Part 1).`` () =
-        (fun 7 -> 9) __ |> should equal 9
+        (fun 7 -> 9) 7  |> should equal 9
 
     [<Test>]
     let ``03 The input to a function is a pattern (Part 2).`` () =
-        (fun _ -> 75) __ |> should equal 75
+        (fun _ -> 75) 75  |> should equal 75
 
     [<Test>]
     let ``04 The input to a function is a pattern (Part 3).`` () =
-        (fun (2 | 3 | 5) -> "Prime") __ |> should equal "Prime"
+        (fun (2 | 3 | 5) -> "Prime") 3 |> should equal "Prime"
 
     [<Test>]
     let ``05 A function can be bound to a name (Part 1).`` () =
         let one_third = fun ka -> ka / 3
-        __ 21 |> should equal 7
+        one_third 21 |> should equal 7
 
     [<Test>]
     let ``06 A function can be bound to a name (Part 2).`` () =
         let pinky bleh = bleh / 3 // The syntax has changed from Part 1, but the meaning is the same
-        __ 21 |> should equal 7
+        pinky 21 |> should equal 7
 
     [<Test>]
     let ``07 A function can span multiple lines (Part 1).`` () =
@@ -48,14 +48,14 @@ module ``03: Putting the Function into Functional Programming`` =
             let k = "swash" // notice the indentation.
             let b = "buckle" // F# is whitespace-sensitive, so it is important!
             zorro + " likes to " + k + b
-        ) "Zorro the pirate" |> should equal __
+        ) "Zorro the pirate" |> should equal 
 
     [<Test>]
     let ``08 A function can span multiple lines (Part 2).`` () =
         let jorus who =
             let p = 5
             who * p
-        jorus 12 |> should equal __
+        jorus 12 |> should equal 60
 
     [<Test>]
     let ``09 A function can span multiple lines (Part 2, expanded syntax).`` () =
@@ -66,7 +66,7 @@ module ``03: Putting the Function into Functional Programming`` =
                 let p = 3 in
                     who * p
         in
-            jorus 12 |> should equal __
+            jorus 12 |> should equal 36
 
     // The next few are very similar.  Resist the temptation to
     // just fill out values without having any idea about what's
@@ -79,28 +79,28 @@ module ``03: Putting the Function into Functional Programming`` =
         // read the above as: fun love -> (fun hate -> (love - hate))
         let j = i 10
         let k = j 9
-        k |> should equal __
+        k |> should equal 1
 
     [<Test>]
     let ``11 A function can return a function (Part 2).`` () =
         let funky a b = a + b
         let j = funky 10
         let k = j 9
-        k |> should equal __
+        k |> should equal 19
 
     [<Test>]
     let ``12 You can write a function as a one-liner (Part 1).`` () =
-        (fun ___ -> fun ___ -> __ * __) __ __ |> should equal 27
+        (fun x -> fun y -> x* y) 3 9 |> should equal 27
 
     [<Test>]
     let ``13 You can write a function as a one-liner (Part 2).`` () =
-        (fun _____ ____ -> __ + __) __ __ |> should equal 17
+        (fun x y -> x + y) 10 7 |> should equal 17
 
     [<Test>]
     let ``14 'Multiple-argument' functions are one-input, one-output in disguise`` () =
       let i j k = j * k
-      let j = __ 4
-      let k = __ 12
+      let j = i 4
+      let k = j 12
       k |> should equal 48
 
     [<Test>]
@@ -108,7 +108,7 @@ module ``03: Putting the Function into Functional Programming`` =
         let f a =
             failwith "An exception will be thrown as soon as this is executed."
             a + 2
-        ___ |> should be ofType<int -> int>
+        f |> should be ofType<int -> int>
 
     [<Test>]
     let ``16 A function is executed when it is called, NOT when it is defined or referenced (Part 2).`` () =
@@ -116,7 +116,7 @@ module ``03: Putting the Function into Functional Programming`` =
             let f a =
                 failwith "An exception will be thrown as soon as this is executed."
                 a + 2
-            FILL_ME__IN |> should equal 1234
+            f|> should equal 1234
         ) |> should throw typeof<System.Exception>
 
     [<Ignore("Later")>]
@@ -125,8 +125,8 @@ module ``03: Putting the Function into Functional Programming`` =
         // reuse functionality.  This technique is exceptionally flexible and often
         // seen in functional code, so you should try to understand it fully.
         let f animal noise = animal + " says " + noise
-        let kittehs = __ "cat"
-        __ "nyan" |> should equal "cat says nyan"
+        let kittehs = f "cat"
+        kittehs "nyan" |> should equal "cat says nyan"
 
     [<Ignore("Later")>]
     let ``18 Partially specifying arguments (Part 2).`` () =
@@ -150,7 +150,7 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``17 Two names can be bound to the same value`` () =
         let f x = x + 2
         let y = f
-        y 20 |> should equal ___
+        y 20 |> should equal 22
 
     [<Ignore("Later")>]
     let ``21 Getting closure`` () =
@@ -179,23 +179,22 @@ module ``03: Putting the Function into Functional Programming`` =
         let a = 25
         let f () = a + 10
         let a = 99
-        a |> should equal __
-        f () |> should equal __
-
+        a |> should equal 99
+        f () |> should equal 35
     [<Test>]
     let ``19 Nesting functions`` () =
         let hailstone x =
             let triple x = x * 3
             let addOne x = x + 1
             addOne (triple x)
-        hailstone 5 |> should equal __
+        hailstone 5 |> should equal 16
 
     [<Test>]
     let ``20 Functions have types`` () =
         let a x y = x + "cabbage" + y
         let b r = 50.0 / r
-        a |> should be ofType<FILL_ME_IN>
-        b |> should be ofType<FILL_ME_IN>
+        a |> should be ofType<string -> string -> string > 
+        b |> should be ofType<float -> float>
 
 
     [<Test>]
@@ -213,20 +212,20 @@ module ``03: Putting the Function into Functional Programming`` =
         with the feature of higher-order functions :).
     *)
         let somefunc x y = x + y x
-        let square v = v * v
-        somefunc 3 square |> should equal __
-        somefunc 3 ((*) 7) |> should equal __
-        somefunc 10 ((+) 8) |> should equal __
-        somefunc 5 (fun z -> z + 22) |> should equal __
+        let square v = v * v    // 9
+        somefunc 3 square |> should equal 12
+        somefunc 3 ((*) 7) |> should equal 24
+        somefunc 10 ((+) 8) |> should equal 28
+        somefunc 5 (fun z -> z + 22) |> should equal 32
 
     [<Ignore("Later")>]
     let ``28 Type annotations for function types`` () =
-        let a (x:FILL_ME_IN) (y:FILL_ME_IN) = x + y
-        let b (x:FILL_ME_IN) (y:FILL_ME_IN) = x + y
+        let a (x:string) (y:string) = x + y
+        let b (x:float) (y:float) = x + y
         a |> should be ofType<string -> string -> string>
         b |> should be ofType<float -> float -> float>
-        a __ __ |> should equal "skipping"
-        b __ __ |> should equal 1.02
+        a "skip" "ping" |> should equal "skipping"
+        b 1.00 0.02 |> should equal 1.02
 
     [<Ignore("Later")>]
     let ``29 We can use a type annotation for a function's output`` () =
@@ -254,11 +253,11 @@ module ``03: Putting the Function into Functional Programming`` =
 
     [<Test>]
     let ``22 Operators are functions in disguise`` () =
-        (+) 5 8 |> should equal __
-        (-) 3 5 |> should equal __
-        (/) 12 4 |> should equal __
-        (=) 93.1 93.12 |> should equal __
-        (<) "hey" "jude" |> should equal __
+        (+) 5 8 |> should equal 13
+        (-) 3 5 |> should equal -2
+        (/) 12 4 |> should equal  3
+        (=) 93.1 93.12 |> should equal false
+        (<) "hey" "jude" |> should equal true
         // ... and other operators: >, <=, >=, <>, %, ...
 
 (*
@@ -280,10 +279,10 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``23 |>, the 'pipe' operator`` () =
         let add5 a = a + 5
         let double a = a * 2
-        3 |> add5 |> double |> should equal __  // <-- start with three, add 5, then double. Readable, isn't it?
-        3 |> double |> add5 |> should equal __
-        6 |> add5 |> add5 |> should equal __
-        8 |> double |> double |> add5 |> should equal __
+        3 |> add5 |> double |> should equal 16  // <-- start with three, add 5, then double. Readable, isn't it?
+        3 |> double |> add5 |> should equal 11
+        6 |> add5 |> add5 |> should equal 16
+        8 |> double |> double |> add5 |> should equal 37
 
     (*
         The pipe operator takes:
@@ -300,14 +299,14 @@ module ``03: Putting the Function into Functional Programming`` =
     let ``24 The output type of one pipe must be the input type to the next`` () =
         let a x = x * 2.5
         let b x = x = 7.5
-        a |> should be ofType<FILL_ME_IN>
-        b |> should be ofType<FILL_ME_IN>
-        __ |> __ |> __ |> should equal true
+        a |> should be ofType<float->float>
+        b |> should be ofType<float->bool>
+        3.0 |> a |> b |> should equal true
 
     (*
         The backwards-pipe operator takes:
         - a function 'a -> 'b
-        - an input 'a
+        - an inpt 'a
         ...and applies the function to the input.  It is defined as:
 
             let (<|) f x = f x
@@ -323,7 +322,7 @@ module ``03: Putting the Function into Functional Programming`` =
         let a x =
             x = 4
         not (a 4) |> should equal false
-        (__ __ a 4) |> should equal false // <-- put <| in one of the spaces to fill in
+        not <| (a 4) |> should equal false // <-- put <| in one of the spaces to fill in
 
     (*
         The compose operator takes:
@@ -348,7 +347,7 @@ module ``03: Putting the Function into Functional Programming`` =
         let j = double >> add5
         let k = double >> double >> double
         let l = j >> i
-        i 3 |> should equal __
-        j 3 |> should equal __
-        k 3 |> should equal __
-        l 3 |> should equal __
+        i 3 |> should equal 16
+        j 3 |> should equal 11
+        k 3 |> should equal 24
+        l 3 |> should equal 52

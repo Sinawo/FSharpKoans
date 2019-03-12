@@ -24,7 +24,7 @@ particular thing worked, and other things didn't.
 
 // A module can hold type definitions AND bindings.
 module ``01: About Testing`` = 
-    (*
+   (*
         The two tests below also demonstrate how scoping in F# works.
         Multiple lines in the same block must start on the NEXT line and be indented to the same level.
         If the block consists of a single line, it can (usually) be put on the same line.
@@ -48,9 +48,9 @@ module ``01: About Testing`` =
     [<Test>]
     let ``01 How this works`` () = // In F#, any sequence of characters between `` marks can be identifiers.  ``This is a long method name`` is way better than ThisIsALongMethodName !
         let expected_value = 1 + 1
-        let actual_value = __ //start by changing this line
+        let actual_value = 2 //start by changing this line
         actual_value |> should equal expected_value
    
     // Easy, right? Now try one more.
     [<Test>]
-    let ``02 Fill in the values`` () = (1 + 1) |> should equal __
+    let ``02 Fill in the values`` () = (1 + 1) |> should equal 2

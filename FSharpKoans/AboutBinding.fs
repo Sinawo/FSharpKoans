@@ -60,21 +60,21 @@ module ``02: About Binding`` =
     [<Test>]
     let ``01 Basic 'let' binding`` () = 
         let x = 50 in // note that the syntax is more explicit about what's really going on!
-            x |> should equal __
+            x |> should equal 50
 
     [<Test>]
     let ``02 Equivalent basic 'let' binding`` () = // this is exactly equivalent to the previous binding.
         let x = 50
-        x |> should equal __
+        x |> should equal 50
 
     [<Test>]
     let ``03 There are many types of values`` () =
-        let a = __
-        let b = __
-        let c = __
-        let d = __
-        let e = __
-        let f = __
+        let a =  2
+        let b =  26.26
+        let c =  true
+        let d = "string"
+        let e =  'c'
+        let f = ()
         a |> should be ofType<int>
         b |> should be ofType<float>
         c |> should be ofType<bool>
@@ -84,26 +84,26 @@ module ``02: About Binding`` =
 
     [<Test>]
     let ``04 We can compare values using F#'s comparison operators`` () =
-        1 |???| 2 |> should equal true
-        2 |???| 1 |> should equal true
-        1 |???| 1 |> should equal true
-        1 |???| 1 |> should equal false
-        () |???| () |> should equal true
-        () |???| () |> should equal false
+        1  < 2 |> should equal true
+        2 > 1 |> should equal true
+        1 = 1 |> should equal true
+        1 > 1 |> should equal false
+        () = () |> should equal true
+        () <> () |> should equal false
 
     [<Test>]
     let ``05 There's a `not` function instead of a `not` operator`` () =
-        __ true |> should equal false
+        not true |> should equal false
 
     [<Test>]
     let ``06 Nest your 'let' statements as deeply as you'd like`` () =
-        let a =
+        let a = 
             let b =
                 let c =
                     let d = 63 in d
                 c + 1
             b + 7
-        a |> should equal ___
+        a |> should equal 71
 
 (*
     Identifiers are *referentially transparent*: the link between value and identifier never changes.
@@ -136,12 +136,12 @@ module ``02: About Binding`` =
         let a = 21
         let b =
             let a = 8
-            3 + a
+            3 + a   //11
         let c = a + 4
         let a = a + a
-        a |> should equal __
-        b |> should equal __
-        c |> should equal __
+        a |> should equal 42
+        b |> should equal 11
+        c |> should equal 25
 
     (*
         The next test demonstrates *type inference*.
@@ -165,10 +165,10 @@ module ``02: About Binding`` =
         let a = false
         let b = 't'
         x |> should be ofType<int>
-        y |> should be ofType<FILL_ME_IN>
-        z |> should be ofType<FILL_ME_IN>
-        a |> should be ofType<FILL_ME_IN>
-        b |> should be ofType<FILL_ME_IN>
+        y |> should be ofType<string>
+        z |> should be ofType<float>
+        a |> should be ofType<bool>
+        b |> should be ofType<char>
    
    (*
     What's a pattern?  A pattern is something that expresses the SHAPE of data.  Data may
@@ -181,35 +181,34 @@ module ``02: About Binding`` =
 
     [<Test>]
     let ``08 An identifier pattern will match anything`` () =
-        let x = __ // replace with an integer
-        let y = __ // replace with a string
-        let z = __ // replace with anything else!
+        let x = 2// replace with an integer
+        let y = "cow" // replace with a string
+        let z = 's' // replace with anything else!
         x |> should be ofType<int>
         y |> should be ofType<string>
 
     [<Test>]
     let ``09 A wildcard pattern will match anything`` () =
-        let _ = __ // replace with an integer
-        let _ = __ // replace with a string
-        let _ = __ // replace with anything else!
+        let _ = 10 // replace with an integer
+        let _ = "string" // replace with anything else!
         ()
 
     [<Test>]
     let ``10 Constant patterns succeed if both sides match`` () =
-        let 900 = __
-        let "Can't win all the time" = __
+        let 900 = 900
+        let "Can't win all the time" = "Can't win all the time"
         () // eh? what's this funny thing? It's called "unit", and you'll learn more about it in AboutUnit.fs later on.
 
     [<Test>]
     let ``11 Constant patterns fail if the sides don't match exactly`` () =
         (fun () ->
-            let "FILL ME IN" = FILL__ME_IN
+            let "FILL ME I" = FILL__ME_IN
             ()
         ) |> should throw typeof<MatchFailureException>
 
     [<Test>]
     let ``12 Or patterns succeed if any pattern matches`` () =
-        let a | a = __
-        let 7 | 13 | 2 = 3 + __
-        let 'x' | _ | 'p' = __
+        let a | a = 'a'
+        let 7 | 13 | 2 = 3 + 4
+        let 'x' | _ | 'p' = 'x'
         ()
