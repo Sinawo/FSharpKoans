@@ -350,4 +350,4 @@ module ``03: Putting the Function into Functional Programming`` =
         i 3 |> should equal 16
         j 3 |> should equal 11
         k 3 |> should equal 24
-        l 3 |> should equal 52
+        l 3 |> should equal 32
