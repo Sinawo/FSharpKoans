@@ -60,8 +60,8 @@ module ``08: The Good Kind of Discrimination`` =
 
     [<Test>]
     let ``03 A discriminated union case with associated data is a function`` () =
-        Broken |> should be ofType< EquipmentStatus*int >
-        Rented |> should be ofType< EquipmentStatus*string>
+        Broken |> should be ofType< int-> EquipmentStatus >
+        Rented |> should be ofType< string -> EquipmentStatus>
 
     type BinaryTree =
     | Empty
