@@ -43,7 +43,7 @@ module ``11: Exploring your options and results`` =
 
     [<Test>]
     let ``01 Basic Option example`` () =
-        getSurname "Taylor Swift" |> should equal "Swift"
+        getSurname "Taylor Swift" |> should equal ("Swift")
         getSurname "Eminem" |> should equal None
 
     // the System.Int32.TryParse, System.Double.TryParse, etc functions return

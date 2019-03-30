@@ -18,8 +18,7 @@ module ``06: Tuples`` =
     [<Test>]
     let ``02 Elements of a tuple can be different types`` () =
         let stuff = "Rivet", false, 22.5
-        stuff |> should __
-    [<Test>]
+        stuff |> should (*("Rivet", false, 22.5)*) __// I give it this answer the compiler says its an error
     let ``03 Decompose a tuple using tuple pattern`` () =
         let aida = 2020, "cranberry", false, "wait, what?"
         let a, b, c, d = aida

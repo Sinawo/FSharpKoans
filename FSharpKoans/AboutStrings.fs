@@ -106,7 +106,7 @@ module ``13: String manipulation`` =
         let s = "  Dr Phil, PhD, MD, MC, Medicine Man  "
         let ``first index of 'P'`` = s.IndexOf('P')
         let ``last index of 'P'`` = s.LastIndexOf('P')
-        let ``lowercase version`` = s.ToLower()
+        let ``lowercase version`` = s.ToLowerInvariant()
         let ``without surrounding space`` = s.Split("Dr Phil, PhD, MD, MC, Medicine Man")
         ``first index of 'P'`` |> should equal 5
         ``last index of 'P'`` |> should equal 11

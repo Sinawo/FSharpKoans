@@ -5,15 +5,15 @@ module ``15: Using Unit 01`` =
     [<Test>]
     let ``01 Unit is used when there is no return value for a function``() = 
         let sendData data = () //<-- a function which is invoked for its side-effect(s)
-        sendData "data" |> should equal ___ // ... don't overthink this one!
+        sendData "data" |> should equal () // ... don't overthink this one!
    
     [<Test>]
     let ``02 Unit, as an input, conveys no data`` () = 
         let sayHello () = "hello"
         let result = sayHello ()
-        sayHello |> should be ofType<FILL_ME_IN>
-        sayHello () |> should be ofType<FILL_ME_IN>
-        sayHello () |> should equal __
+        sayHello |> should be ofType<unit -> string>
+        sayHello () |> should be ofType<string>
+        sayHello () |> should equal "hello"
 
 (*
     When we develop real systems, we often run into problems
@@ -53,14 +53,14 @@ module ``15: Using Unit 01`` =
             match p < List.length scrollPositions && p >= 0 with
             | true -> scrollPositions.[p]
             | _ -> fun () -> "Nothing to do"
-        scrollPositions |> should be ofType<FILL_ME_IN>
-        getWorkAtPosition |> should be ofType<FILL_ME_IN>
-        getWorkAtPosition 3 |> should be ofType<FILL_ME_IN>
-        (getWorkAtPosition 3) () |> should be ofType<FILL_ME_IN>
-        getWorkAtPosition 250 |> should be ofType<FILL_ME_IN>
-        (getWorkAtPosition 250) () |> should be ofType<FILL_ME_IN>
-        (getWorkAtPosition 5) () |> should equal __
-        (getWorkAtPosition -7) () |> should equal __
+        scrollPositions |> should be ofType<unit -> string>
+        getWorkAtPosition |> should be ofType<int -> unit -> string>
+        getWorkAtPosition 3 |> should be ofType<int -> unit -> string>
+        (getWorkAtPosition 3) () |> should be ofType<int -> unit -> string>
+        getWorkAtPosition 250 |> should be ofType<int -> unit -> string>
+        (getWorkAtPosition 250) () |> should be ofType<int -> unit -> string>
+        (getWorkAtPosition 5) () |> should equal "Load video"
+        (getWorkAtPosition -7) () |> should equal "Nothing to do"
 
     (*
         Sometimes we want to do something purely for a side-effect

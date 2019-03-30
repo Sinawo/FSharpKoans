@@ -28,9 +28,9 @@ module ``14: List operations are so easy, you could make them yourself!`` =
 
     [<Test>]
     let ``01 Finding the length of a list, the hard way`` () =
-        let length (xs : 'a list) : int =
-           let rec findlength n a =
-                 match // write a function to find the length of a list
+        let length (xs : 'a list) : int = __
+           //let rec findlength n a =
+           //      match // write a function to find the length of a list
         length [9;8;7] |> should equal 3
         length [] |> should equal 0
         length ["Le Comte de Monte-Cristo"] |> should equal 1
@@ -53,10 +53,10 @@ module ``14: List operations are so easy, you could make them yourself!`` =
     // Hint: https://msdn.microsoft.com/en-us/library/ee340277.aspx
     [<Test>]
     let ``04 Reversing a list, the easy way`` () =
-        __ [9;8;7] |> should equal [7;8;9]
-        __ [] |> should equal []
-        __ [0] |> should equal [0]
-        __ [9;8;5;8;45] |> should equal [45;8;5;8;9]
+        List.rev [9;8;7] |> should equal [7;8;9]
+        List.rev [] |> should equal []
+        List.rev [0] |> should equal [0]
+        List.rev [9;8;5;8;45] |> should equal [45;8;5;8;9]
 
     [<Test>]
     let ``05 Fixed-function mapping, the hard way (part 1).`` () =
@@ -114,15 +114,21 @@ module ``14: List operations are so easy, you could make them yourself!`` =
     // Hint: https://msdn.microsoft.com/en-us/library/ee370294.aspx
     [<Test>]
     let ``10 Specified-function filtering, the easy way`` () =
-        __ (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
-        __ (fun x -> String.length x = 4) ["moo"; "woof"; "yip"; "nyan"; "meow"]
+        List.filter (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
+        List.filter (fun x -> String.length x = 4) ["moo"; "woof"; "yip"; "nyan"; "meow"]
         |> should equal ["woof"; "nyan"; "meow"]
-        __ (fun (a,b) -> a*b >= 14) [9,3; 4,2; 4,5] |> should equal [9,3; 4,5]
+        List.filter (fun (a,b) -> a*b >= 14) [9,3; 4,2; 4,5] |> should equal [9,3; 4,5]
 
     [<Test>]
     let ``11 Fixed-function filtering, the hard way`` () =
-        let filter (xs : int list) : int list =
-            __ // write a function to filter for odd elements only.
+        let filter (xs : int list) : int list = __
+            //let rec filterodd nlist =
+            //    match n% 2 <> 0 with 
+            //    | false -> filterodd nlist
+            //    | true -> filterodd nlist
+
+           // filterodd  xs // write a function to filter for odd elements only.
+
         filter [1; 2; 3; 4] |> should equal [1; 3]
         filter [10; 9; 8; 7] |> should equal [9; 7]
         filter [15; 2; 7] |> should equal [15; 7]
@@ -149,10 +155,10 @@ module ``14: List operations are so easy, you could make them yourself!`` =
     // Hint: https://msdn.microsoft.com/en-us/library/ee370294.aspx
     [<Test>]
     let ``13 Specified-function filtering, the easy way`` () =
-        __ (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
-        __ (fun x -> String.length x = 4) ["moo"; "woof"; "yip"; "nyan"; "meow"]
+        List.filter (fun x -> x > 19) [9; 5; 23; 66; 4] |> should equal [23; 66]
+        List.filter (fun x -> String.length x = 4) ["moo"; "woof"; "yip"; "nyan"; "meow"]
         |> should equal ["woof"; "nyan"; "meow"]
-        __ (fun (a,b) -> a*b >= 14) [9,3; 4,2; 4,5] |> should equal [9,3; 4,5]
+        List.filter (fun (a,b) -> a*b >= 14) [9,3; 4,2; 4,5] |> should equal [9,3; 4,5]
 
 (*
 A 'fold' starts from a specified state, and generates more states depending
@@ -186,19 +192,29 @@ or something else), it's likely that you'll be able to use a fold.
 
     [<Test>]
     let ``14 A fold which sums a list`` () =
-        let fold initialState xs =
-            __ // write a function to do what's described above
+        let fold initialState xs = // write a function to do what's described above
+         let rec foldN  xs n =
+                match xs with
+                | [] -> n
+                | a::b -> foldN b (n + a)
+         foldN xs initialState
+
         fold 0 [1; 2; 3; 4] |> should equal 10
         fold 100 [2;4;6;8] |> should equal 120
 
     [<Test>]
     let ``15 A fold which multiplies a list`` () =
-        let fold initialState xs =
-            __ // write a function to multiply the elements of a list
-        fold __ [99] |> should equal 99
-        fold 2 [__] |> should equal 22
-        fold __ [1;3;5;7] |> should equal 105
-        fold __ [2;5;3] |> should equal 0
+        let fold initialState xs = // write a function to multiply the elements of a list
+             let rec mult xs n =
+                match xs with
+                | [] -> n
+                | a::b -> mult b (n * a)
+             mult xs initialState
+
+        fold 1 [99] |> should equal 99
+        fold 2 [11] |> should equal 22
+        fold 1 [1;3;5;7] |> should equal 105
+        fold 0 [2;5;3] |> should equal 0
 
     // you probably know the drill by now.  It'd be good to have
     // a function which does the state-generation stuff, wouldn't
@@ -207,7 +223,14 @@ or something else), it's likely that you'll be able to use a fold.
     [<Test>]
     let ``16 Folding, the hard way`` () =
         let fold (f : 'a -> 'b -> 'a) (initialState : 'a) (xs : 'b list) : 'a =
-            __  // write a function to do a fold.
+              // write a function to do a fold.
+                 let rec foldList xs n =
+                   match xs with
+                   | [] -> n
+                   | a::b -> foldList b (f n a)
+                 foldList xs initialState
+
+
         fold (+) 0 [1;2;3;4] |> should equal 10
         fold (*) 2 [1;2;3;4] |> should equal 48
         fold (fun state item -> sprintf "%s %s" state item) "items:" ["dog"; "cat"; "bat"; "rat"]
@@ -217,11 +240,11 @@ or something else), it's likely that you'll be able to use a fold.
     // Hint: https://msdn.microsoft.com/en-us/library/ee353894.aspx
     [<Test>]
     let ``17 Folding, the easy way`` () =
-        __ (+) 0 [1;2;3;4] |> should equal 10
-        __ (*) 2 [1;2;3;4] |> should equal 48
-        __ (fun state item -> sprintf "%s %s" state item) "items:" ["dog"; "cat"; "bat"; "rat"]
+        List.fold (+) 0 [1;2;3;4] |> should equal 10
+        List.fold (*) 2 [1;2;3;4] |> should equal 48
+        List.fold (fun state item -> sprintf "%s %s" state item) "items:" ["dog"; "cat"; "bat"; "rat"]
         |> should equal "items: dog cat bat rat"
-        __ (fun state item -> state + float item + 0.5) 0.8 [1;3;5;7] |> should equal 18.8
+        List.fold (fun state item -> state + float item + 0.5) 0.8 [1;3;5;7] |> should equal 18.8
 
     // List.exists
     [<Test>]
